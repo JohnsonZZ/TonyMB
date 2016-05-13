@@ -17,6 +17,8 @@ class LoginController extends Controller {
 					cookie('account',$account);
 				}
 				session('account',$account);
+				session('href',$result['href']);
+				addlog('登录成功');
 				$this->redirect('Index/index');
 			} else {
 				$this->error('密码错误');

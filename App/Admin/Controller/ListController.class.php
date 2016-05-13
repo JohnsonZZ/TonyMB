@@ -4,15 +4,24 @@ use Admin\Controller\ComController;
 class ListController extends ComController {
     public function index(){
 		$List = M('List');
-		$count = $List->count(); // 查询满足要求的总记录数
-		$Page = new \Think\Page($count,8); // 实例化分页类 传入总记录数和每页显示的记录数(10)
-		$list = $List->order('id desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
-		$Page->setConfig('prev', '<');
-		$Page->setConfig('next', '>');
-		$Page->setConfig('header','');
-		$show = $Page->show(); // 分页显示输出
-		$this->assign('page', $show); // 赋值分页输出
-		$this->assign('list',$list);
+		$keyword = I('get.keyword');
+		if(empty($keyword)){
+			$time = I('get.order');
+			$order = empty($time)? 'time desc' : "time $time";
+			$count = $List->count(); // 查询满足要求的总记录数
+			$Page = new \Think\Page($count,8); // 实例化分页类 传入总记录数和每页显示的记录数(10)
+			$list = $List->order($order)->limit($Page->firstRow . ',' . $Page->listRows)->select();
+			$Page->setConfig('prev', '<');
+			$Page->setConfig('next', '>');
+			$Page->setConfig('header','');
+			$show = $Page->show(); // 分页显示输出
+			$this->assign('page', $show); // 赋值分页输出
+			$this->assign('list',$list);
+		}else{
+			$map['title'] =array('like',"%$keyword%");
+			$list = $List->where($map)->select();
+			$this->assign('list',$list);
+		}
 		$this->display();
     }
 	public function add(){

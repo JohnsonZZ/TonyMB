@@ -3,6 +3,7 @@
     
     <head>
         <include file="Public/header" title="TonyMB | 控制台" />
+		<link rel="stylesheet" href="__BOOTSTRAP__/css/fileinput.min.css">
     </head>
     
     <body class="hold-transition skin-blue sidebar-mini">
@@ -40,7 +41,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form id="form" action="{:U('update')}" method="post">
+                        <form id="form" action="{:U('update')}" method="post" enctype="multipart/form-data">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="account">
@@ -48,6 +49,12 @@
                                     </label>
                                     <input type="text" class="form-control" name="account" id="account" placeholder="输入账号">
                                 </div>
+								<div class="form-group">
+									<label for="account">
+                                        头像(不设置或者设置错误都将使用默认图片)
+                                    </label>
+									<input type="file" name="photo" id="avatar" />
+								</div>
                                 <div class="form-group">
                                     <label for="pwd">
                                         密码
@@ -77,9 +84,19 @@
         </div>
         <!-- ./wrapper -->
         <include file="Public/script" />
+		<script src="__BOOTSTRAP__/js/fileinput.min.js"></script>
+		<script src="__BOOTSTRAP__/js/fileinput_locale_zh.js"></script>
         <script>
             $('#pAdmin').addClass("active").siblings().removeClass("active");
             $('#aAdmin').addClass("active");
+			$('#avatar').fileinput({
+                language: 'zh', //设置语言
+                allowedFileExtensions : ['jpg', 'png','gif'],//接收的文件后缀,
+                showUpload: false, //是否显示上传按钮
+                showCaption: false,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式 
+				maxFileSize: 1024,
+            });
 			$('#admin').click(function(){
 				var pwd = $('#pwd').val();
 				var rpwd = $('#rpwd').val();

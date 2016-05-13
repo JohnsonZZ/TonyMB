@@ -3,16 +3,16 @@
 *
 * 函数：日志记录
 * @param  string $log   日志内容。
-* @param  string $name （可选）用户名。
+* @param  string $account （可选）用户名。
 *
 **/
-function addlog($log,$name=false){
+function addlog($log,$account=false){
 	$Model = M('log');
-	if(!$name){
-		$user = cookie('user');
-		$data['name'] = $user['user'];
+	if(!$account){
+		$data['user'] = session('account');
+		
 	}else{
-		$data['name'] = $name;
+		$data['user'] = $account;
 	}
 	$data['ip'] = $_SERVER["REMOTE_ADDR"];
 	$data['log'] = $log;
